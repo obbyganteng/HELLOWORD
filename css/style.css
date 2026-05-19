@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.hw-root {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+canvas#stars {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hw-scene {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.hw-text-3d {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(48px, 12vw, 96px);
+  font-weight: 900;
+  letter-spacing: 6px;
+  color: #fff;
+  text-shadow:
+    0 1px 0 #ccc,
+    0 2px 0 #c9c9c9,
+    0 3px 0 #bbb,
+    0 4px 0 #b9b9b9,
+    0 5px 0 #aaa,
+    0 6px 1px rgba(0,0,0,.1),
+    0 0 5px rgba(0,0,0,.1),
+    0 1px 3px rgba(0,0,0,.3),
+    0 3px 5px rgba(0,0,0,.2),
+    0 5px 10px rgba(0,0,0,.25),
+    0 10px 10px rgba(0,0,0,.2),
+    0 20px 20px rgba(0,0,0,.15);
+  animation: floatY 4s ease-in-out infinite, colorShift 6s linear infinite;
+}
+
+.hw-world {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(32px, 8vw, 68px);
+  font-weight: 700;
+  letter-spacing: 12px;
+  background: linear-gradient(90deg, #00f0ff, #a020f0, #ff4080, #00f0ff);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s linear infinite, floatY 4s ease-in-out infinite 0.5s;
+}
+
+.hw-ring {
+  width: 320px;
+  height: 8px;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow:
+    0 0 30px 8px rgba(0,240,255,0.6),
+    0 0 60px 12px rgba(160,32,240,0.3);
+  animation: ringPulse 2s ease-in-out infinite;
+  margin: 8px 0;
+}
+
+.hw-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  animation: floatParticle linear infinite;
+}
+
+.hw-grid {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  background:
+    linear-gradient(rgba(0,240,255,0.18) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,240,255,0.18) 1px, transparent 1px);
+  background-size: 50px 50px;
+  transform: perspective(400px) rotateX(65deg);
+  transform-origin: bottom center;
+  opacity: 0.5;
+  z-index: 0;
+}
+
+@keyframes floatY {
+  0%, 100% { transform: translateY(0px) rotateX(0deg); }
+  50%       { transform: translateY(-18px) rotateX(8deg); }
+}
+
+@keyframes colorShift {
+  0%   { text-shadow: 0 0 30px rgba(0,240,255,0.9),   0 5px 10px rgba(0,0,0,.25); }
+  33%  { text-shadow: 0 0 30px rgba(160,32,240,0.9),  0 5px 10px rgba(0,0,0,.25); }
+  66%  { text-shadow: 0 0 30px rgba(255,64,128,0.9),  0 5px 10px rgba(0,0,0,.25); }
+  100% { text-shadow: 0 0 30px rgba(0,240,255,0.9),   0 5px 10px rgba(0,0,0,.25); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: 0%   50%; }
+  100% { background-position: 300% 50%; }
+}
+
+@keyframes ringPulse {
+  0%, 100% { transform: scaleX(1);    opacity: 0.7; }
+  50%       { transform: scaleX(1.2); opacity: 1;   }
+}
+
+@keyframes floatParticle {
+  0%   { transform: translateY(100vh) translateX(0);          opacity: 0;   }
+  10%  { opacity: 1; }
+  90%  { opacity: 0.6; }
+  100% { transform: translateY(-200px) translateX(var(--dx)); opacity: 0;   }
+}
